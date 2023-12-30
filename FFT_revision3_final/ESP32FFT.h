@@ -31,19 +31,19 @@ enum class FFTDirection
   Forward
 };
 
-enum class FFTWindow //Зменшуєм спектральний витік, якшо мій сигнал не є періодичним. вікна Фур'є використовуються для зменшення спектрального витоку 
-{                   // шляхом згладжування сигналу на початку та наприкінці вікна FFT. Це згладжування зменшує різкі переходи в сигналі, які можуть призвести до спектрального витоку.
+enum class FFTWindow 
+{          
   
-  Rectangle,      // прямокутне вікно має найменшу кількість спектрального витоку, але воно також має найгіршу роздільну здатність частоти
-  Hamming,      // Вікно Хеммінга має кращу роздільну здатність частоти, ніж прямокутне вікно, але воно також має більше спектрального витоку
-  Triangle,     // triangle (Bartlett)
-  Hann,       // Вікно Ханна має ще кращу роздільну здатність частоти, ніж вікно Хеммінга, але воно також має ще більше спектрального витоку
+  Rectangle,     
+  Hamming,      
+  Triangle,    
+  Hann,      
   Nuttall,      
   Blackman,     
   Blackman_Nuttall, 
   Blackman_Harris,  
   Flat_top,     
-  Welch       // Метод Welch використовує кілька коротких вікон FFT, щоб побудувати спектр сигналу. Це зменшує вплив різких переходів в сигналі на спектр.
+  Welch       
 };
 
 template <typename T>
@@ -83,7 +83,7 @@ public:
         Swap(this->_vReal[i], this->_vReal[j]);
         if (dir == FFTDirection::Reverse)
         {
-          Swap(this->_vImag[i], this->_vImag[j]);  // Це робиться для того, щоб перетворити сигнал з часової області у частотну область.
+          Swap(this->_vImag[i], this->_vImag[j]);  
         }
       }
       uint_fast16_t k = (this->_samples >> 1);
@@ -111,8 +111,8 @@ public:
         {
           uint_fast16_t i1 = i + l1;
           T t1 = u1 * this->_vReal[i1] - u2 * this->_vImag[i1];
-          T t2 = u1 * this->_vImag[i1] + u2 * this->_vReal[i1]; // Цей код обчислює FFT. Це робиться шляхом послідовного застосування алгоритму "діли і владарюй".
-          this->_vReal[i1] = this->_vReal[i] - t1;              //  Алгоритм "діли і владарюй" розділяє вхідний сигнал на дві половини, обчислює FFT кожної половини, а потім рекомбінує результати.
+          T t2 = u1 * this->_vImag[i1] + u2 * this->_vReal[i1]; // This code calculates the FFT. This is done by consistently applying the "divide and rule" algorithm.
+          this->_vReal[i1] = this->_vReal[i] - t1;              //  A divide-and-conquer algorithm divides the input signal into two halves, calculates the FFT of each half, and then recombines the results.
           this->_vImag[i1] = this->_vImag[i] - t2;
           this->_vReal[i] += t1;
           this->_vImag[i] += t2;
@@ -138,7 +138,7 @@ public:
     }
   }
 
-  void complexToMagnitude(int frequency, int N) const //  код перетворює комплексні числа на їх модулі.
+  void complexToMagnitude(int frequency, int N) const 
   {
     int highest_frequency = 1;
     int highest_amplitude;
@@ -179,17 +179,7 @@ public:
       isRunning2 = false;
       nextPattern2();
     }
-    
-//  for(int i = 0; i < 38; i++) {
-//    leds[i] = CHSV(224, 255, 0);  
-//    leds[i+38] = CHSV(192, 255, 0); 
-//    leds[i+76] = CHSV(160, 255, 0); 
-//    leds[i+114] = CHSV(128, 255, 0); 
-//    leds[i+152] = CHSV(96, 255, 0); 
-//    leds[i+190] = CHSV(64, 255, 0); 
-//    leds[i+228] = CHSV(32, 255, 0); 
-//    leds[i+266] = CHSV(0, 255, 0); 
-//  }
+
   
   for(int i = 0; i < 20; i+=2) {
     leds[i] = CHSV(224, 255, this->_vReal[i/2]);  
@@ -214,7 +204,7 @@ public:
   fadeToBlackBy(leds, NUM_LEDS, 1);
   }
 
-  void dcRemoval() const // для усунення шуму
+  void dcRemoval() const 
   {
     // calculate the mean of vData
     T mean = 0;
@@ -230,8 +220,8 @@ public:
     }
   }
 
-  void windowing(FFTWindow windowType, FFTDirection dir, bool withCompensation = false) //код виконує віконну функцію для сигналу FFT. Віконна функція - це функція,  
-  {                                                                                     // яка множиться на сигнал для зменшення спектрального витоку.
+  void windowing(FFTWindow windowType, FFTDirection dir, bool withCompensation = false) 
+  {                                                                                    
     // check if values are already pre-computed for the correct window type and compensation
     if (_windowWeighingFactors && _weighingFactorsComputed &&
       _weighingFactorsFFTWindow == windowType &&
@@ -325,7 +315,7 @@ public:
     }
   }
 
-  T majorPeak() const   //  код знаходить основну пікову частоту сигналу. Основна пікова частота - це частота з найбільшою потужністю в сигналі.
+  T majorPeak() const   //  the code finds the main peak frequency of the signal. The main peak frequency is the frequency with the most power in the signal.
   {
     T maxY = 0;
     uint_fast16_t IndexOfMaxY = 0;

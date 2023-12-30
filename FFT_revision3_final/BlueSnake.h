@@ -16,7 +16,7 @@ void BlueSnake::runPattern() {
   leds[(sine1+sine2)/2] = CHSV(160, 255, 255);
   leds[sine2] = CHSV(0, 255, 255);
   blur1d(leds, NUM_LEDS, 200);
-  fadeToBlackBy(leds, NUM_LEDS, 10); // кожного разу буде затемнятись на 10 відсотків
+  fadeToBlackBy(leds, NUM_LEDS, 10); // will dim by 10 percent each time
   btn.tick();
   btn2.tick();
   FastLED.show();

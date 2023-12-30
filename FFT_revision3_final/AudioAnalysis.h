@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "ESP32FFT.h"
 
-#define SAMPLE_SIZE 256 // кількість зразків
+#define SAMPLE_SIZE 256 
 #define SAMPLE_RATE 20000
 
 #define BAND_SIZE 8 
@@ -12,7 +12,7 @@
 class AudioAnalysis
 {
 public:
-  enum falloff_type     // визначає типи зменшення амплітуди
+  enum falloff_type     
   {
     NO_FALLOFF,
     LINEAR_FALLOFF,
@@ -131,19 +131,19 @@ protected:
   EspFFT<float> *_FFT = nullptr;
 };
 
-AudioAnalysis::AudioAnalysis() // _bandSize - кількість частотних смуг
+AudioAnalysis::AudioAnalysis() 
 {
   // set default eq levels;
   for (int i = 0; i < _bandSize; i++)
   {
-    _bandEq[i] = 1.0;         // Рівень 1.0 означає, що потужність сигналу в цій частотній смузі не буде змінюватися.
+    _bandEq[i] = 1.0;         
   }
 }
 
 void AudioAnalysis::computeFFT(int32_t *samples, int sampleSize, int sampleRate)
 {
   _samples = samples;
-  if (_FFT == nullptr || _sampleSize != sampleSize || _sampleRate != sampleRate) // функція перевіряє, чи створений об'єкт EspFFT. Якщо об'єкт не створений, то функція створює його з заданими параметрами.
+  if (_FFT == nullptr || _sampleSize != sampleSize || _sampleRate != sampleRate) 
   {
     _sampleSize = sampleSize;
     _sampleRate = sampleRate;
