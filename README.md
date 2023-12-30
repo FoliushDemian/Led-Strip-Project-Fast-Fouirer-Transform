@@ -10,3 +10,7 @@
 This device works in two modes: presence detection mode and response mode to different sound frequencies.
 + If it works in the first mode, then it turns on the LED strip only when it detects movement, also in this mode you can adjust one of the 9 modes of the strip's glow, from a moderate overflow to a sharp stroboscopic color change.
 + In the second mode, the device works as an equalizer. The software implements the Fast Fourier Transform, which uses the data received from the digital microphone to illuminate a specific section of the led strip. The sampling rate in my case is 20 kHz.
+
+Also, for greater convenience of using the device, I used a seven-segment indicator for visual perception, which the backlight modes are turned on  right now.
+
+Below I attach photos of the printed circuit board for this project and a diagram of how my device works:
